@@ -10,6 +10,7 @@ void loop()
 {
   float distance;
   float angle;
+  int sonar;
   distance = sharpIR('F');
   delay(500);
   distance = sharpIR('R');
@@ -20,5 +21,6 @@ void loop()
   delay(500);
   angle = compass();
   delay(500);
+  sonar = LVMaxSonarEZ4();
 }
 
