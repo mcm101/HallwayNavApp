@@ -12,6 +12,7 @@ void loop()
   /*
   float distance;
   float angle;
+  int sonar;
   distance = sharpIR('F');
   delay(500);
   distance = sharpIR('R');
@@ -25,5 +26,6 @@ void loop()
   */
   dac_write(1, 255);
   delay(500);
+  sonar = LVMaxSonarEZ4();
 }
 
