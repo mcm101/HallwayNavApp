@@ -4,7 +4,6 @@ void setup()
 {
   Serial.begin(9600);
   //compassSetup();
-  dac_init();
 }
 
 void loop()
@@ -24,8 +23,8 @@ void loop()
   angle = compass();
   delay(500);
   */
-  dac_write(1, 255);
+  dac_write(0, 255);
   delay(500);
-  sonar = LVMaxSonarEZ4();
+  //sonar = LVMaxSonarEZ4();
 }
 

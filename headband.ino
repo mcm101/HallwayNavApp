@@ -1,34 +1,14 @@
-#include <SPI.h>
-
-const int LOAD_PIN = 13;
-
-void dac_init()
-{
-  digitalWrite(LOAD_PIN, 1);
-  SPI.setBitOrder(MSBFIRST);
-  SPI.setClockDivider(SPI_CLOCK_DIV16);
-  SPI.setDataMode(SPI_MODE0);
-}
-
-void dac_write(byte channel, byte val)
-{
-  SPI.begin();
-  
-  channel <<= 1;
-  
-  SPI.transfer(channel);
-  SPI.transfer(val);
-  
-  SPI.end();
-  
-  digitalWrite(LOAD_PIN, 0);
-  delayMicroseconds(1);
-  digitalWrite(LOAD_PIN, 1);
-}
 
 const int SPACING = 450;
 const int NUM_CHANNELS = 8;
 const float DAC_RES = 255.0;
+const int DAC_PWM_PINS[NUM_CHANNELS] = {2, 3, 4, 5, 6, 7, 8, 9};
+
+void dac_write(byte channel, byte val)
+{
+  float scale33 = 2 * val / 3;
+  analogWrite(DAC_PWM_PINS[channel], scale33);
+}
 
 void direct(int deg)
 {
