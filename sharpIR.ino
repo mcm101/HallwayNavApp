@@ -1,40 +1,43 @@
-//note: the distances calculate here are based 
-//on 3.3 volts, the numbers will be off if 5v it used.
+// Note: the distances calculate here are based 
+// on 3.3 volts, the numbers will be off if 5v it used.
 
-const int frontIR = 8;  // the pin that the IR sensor's data is attached to
-const int rightIR = 9;
-const int backIR = 10;
-const int leftIR = 11;
+// the digital pin that the IR sensor is attached to
+const int FRONT_PIN = 8;
+const int RIGHT_PIN = 9;
+const int REAR_PIN = 10;
+const int LEFT_PIN = 11;
 
-float sharpIR(char sensor) {
+float ir_read(char sensor)
+{
   float voltage;
 
-  if(sensor == 'F')
+  if (sensor == 'F')
   {
-    if(debug)  Serial.print("Front");
-    voltage = analogRead(frontIR);
+    if (debug)  Serial.print("Front");
+    voltage = analogRead(FRONT_PIN);
   }
-  else if(sensor == 'R')
+  else if (sensor == 'R')
   {
-    if(debug)  Serial.print("Right");
-    voltage = analogRead(rightIR);
+    if (debug)  Serial.print("Right");
+    voltage = analogRead(RIGHT_PIN);
   }
-  else if(sensor == 'B')
+  else if (sensor == 'B')
   {
-    if(debug)  Serial.print("Back");
-    voltage = analogRead(backIR);
+    if (debug)  Serial.print("Back");
+    voltage = analogRead(REAR_PIN);
   }
-  else if(sensor == 'L')
+  else if (sensor == 'L')
   {
-    if(debug)  Serial.print("Left");
-    voltage = analogRead(leftIR);
+    if (debug)  Serial.print("Left");
+    voltage = analogRead(LEFT_PIN);
   }
   else 
   {
     Serial.println("invalid sensor");
     return 0;
   }
-  if(debug)
+  
+  if (debug)
   {
     Serial.print(" IR Inches: ");
     Serial.println(voltageToDistance(voltage));

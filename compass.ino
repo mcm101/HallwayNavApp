@@ -3,12 +3,13 @@
 
 #include <Wire.h>
 
-int HMC6352SlaveAddress = 0x42 >> 1;
-int HMC6352ReadAddress = 0x41; //"A" in hex, A command is: 
+const int HMC6352SlaveAddress = 0x42 >> 1; // only 7 bits
+const int HMC6352ReadAddress = 0x41; // internal address of the data
 
 int headingValue;
 
-void compassSetup(){
+void compassSetup()
+{
   // "The Wire library uses 7 bit addresses throughout. 
   //If you have a datasheet or sample code that uses 8 bit address, 
   //you'll want to drop the low bit (i.e. shift the value one bit to the right), 
@@ -16,9 +17,6 @@ void compassSetup(){
   byte outputModeCommand[] = {0x47, 0x4e, 0x00};
   byte opModeCommand[] = {0x47, 0x74, 0x62};
   
- 
-  //Serial.begin(9600);
-  Wire.begin();
   //setup compass module
   Wire.beginTransmission(HMC6352SlaveAddress);
   Wire.write(outputModeCommand, 3);
@@ -26,9 +24,9 @@ void compassSetup(){
   Wire.endTransmission();
 }
 
-float compass(){
-  //"Get Data. Compensate and Calculate New Heading"\
-  
+float compass()
+{
+  //"Get Data. Compensate and Calculate New Heading"\  
   Wire.beginTransmission(HMC6352SlaveAddress);
   Wire.write(HMC6352ReadAddress);              // The "Get Data" command
   Wire.endTransmission();
@@ -47,11 +45,12 @@ float compass(){
   float headingSum = (MSB << 8) + LSB; //(MSB / LSB sum)
   float headingInt = headingSum / 10;
   
-  if(debug)
+  if (debug)
   {
-    Serial.print(headingInt);
-    Serial.println(" degrees");
+    Serial.print("Heading Degrees: ");
+    Serial.println(headingInt);
   }
+  
   return headingInt;
 }
 
