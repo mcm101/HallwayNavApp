@@ -1,4 +1,4 @@
-const int debug  = 1;
+const int debug  = 0;
 float forward;//, previous_forward;
 float right;//, previous_right;
 float backward;//, previous_backward;
@@ -12,6 +12,8 @@ const float error = .05;//5% error checking
 const int ir_max = 60;//max ir value filtering?
 const int average = 5;//number of values to average
 byte previous_intersection[2];//[0] most recent, [1] before that
+
+boolean repeat;
 
 void setup()
 {
@@ -29,17 +31,41 @@ void setup()
   
   previous_intersection[0] = B1111;
   previous_intersection[1] = B1111;
+  repeat = true;
 }
 
 void loop()
 {
-  get_sensor_data();
-  
+  //get_sensor_data();//do this indiviually?
+  left = 0;
+  right - 0;
   if(!at_goal())
   {
     //main loop!
+    if(repeat)
+    {
+      for(int i = 0; i < 10000; i++)
+      { 
+        right = ir_read('R');
+      }
+      repeat = false;
+    }
+      
     //determine heading
-    //take_a_step();
+    //make left = right
+  /*  for(int i = 0; i < 100; i++)
+    {  
+      left += ir_read('L');
+      right += ir_read('R');
+    }
+    left = left/100;
+    right = right/100;
+    Serial.print("left distance ");
+    Serial.println(left);
+    Serial.print("right distance ");
+    Serial.println(right);
+*/    //take_a_step();
+    
   }
   else
   {
@@ -47,7 +73,7 @@ void loop()
     //vibrate motors in a circle to signal done
   }
   //add a delay
-  delay(3000);
+//  delay(3000);
 }
 
 void get_sensor_data()
@@ -107,7 +133,7 @@ boolean at_intersection()  //note: deadend also considered intersection
   //NESW  relative to the map
   //N = north, E = east, etc.
   //set previous intersections
-  previous_intersection[1] = previous_intersection[0];
+ // previous_intersection[1] = previous_intersection[0];
   //previous_intersection[0] = this intersection
   return false;
 }

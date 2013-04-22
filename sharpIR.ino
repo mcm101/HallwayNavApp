@@ -20,6 +20,8 @@ float ir_read(char sensor)
   {
     if (debug)  Serial.print("Right");
     voltage = analogRead(RIGHT_PIN);
+    Serial.print(voltage);
+    Serial.print(",");
   }
   else if (sensor == 'B')
   {
