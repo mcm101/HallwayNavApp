@@ -20,6 +20,8 @@ float ir_read(char sensor)
   {
     if (debug)  Serial.print("Right");
     voltage = analogRead(RIGHT_PIN);
+    Serial.print(voltage);
+    Serial.print(",");
   }
   else if (sensor == 'B')
   {
@@ -47,7 +49,8 @@ float ir_read(char sensor)
 
 float voltageToDistance(float y) //return distance in inches
 {
-  return (4129.936 * pow(y, -0.935) - 3.937); 
+  //return (4129.936 * pow(y, -0.935) - 3.937); 
+  return (6688.7 * pow(y, -1.058)); 
 }
 
 
