@@ -2,7 +2,7 @@ const int SONAR_AN_PIN = 0;
 
 int sonar_read()
 {
-  int inches = map(analogRead(SONAR_AN_PIN), 0, 1023, 0, 254);
+  int inches = analogRead(SONAR_AN_PIN) / 2;
   
   if (debug)
   {

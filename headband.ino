@@ -6,8 +6,10 @@ const int DAC_PWM_PINS[NUM_CHANNELS] = {2, 3, 4, 5, 6, 7, 8, 9};
 
 void dac_write(byte channel, byte val)
 {
-  float scale33 = 2 * val / 3;
-  analogWrite(DAC_PWM_PINS[channel], scale33);
+  int scaled = 0;
+  if (val > 0)
+    scaled = map(val, 0, 255, 128, 153); // map to 2.5 - 3.0 V
+  analogWrite(DAC_PWM_PINS[channel], scaled);
 }
 
 void direct(int deg)
