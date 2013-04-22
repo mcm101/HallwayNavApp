@@ -1,22 +1,33 @@
 const int SONAR_AN_PIN = 0;
 const int SONAR_RX_PIN = 10;
+
 void sonar_setup()
 {
-  delay(250);
-  digitalWrite(SONAR_RX_PIN, HIGH);
+  delay(250); // power-up
+  digitalWrite(SONAR_RX_PIN, HIGH); // calibration
+  delayMicroseconds(50);
+  digitalWrite(SONAR_RX_PIN, LOW);
+  delay(150); // first cycle
 }
+
+void sonar_fire(boolean oneShot)
+{
+  digitalWrite(SONAR_RX_PIN, HIGH); 
+  if (oneShot)
+  {
+    delayMicroseconds(50);
+    digitalWrite(SONAR_RX_PIN, LOW);
+  }
+}
+
 int sonar_read()
 {
-  digitalWrite(SONAR_RX_PIN, HIGH);
-  
-  //delayMicroseconds(20);
- // digitalWrite(SONAR_RX_PIN, LOW);
   delay(50);
-  int inches = analogRead(SONAR_AN_PIN)/2;
+  int inches = analogRead(SONAR_AN_PIN);
   
   if (debug)
   {
-    Serial.print("analog Sonar Inches: ");
+    Serial.print("Sonar Inches: ");
     Serial.println(inches);
   }
   
