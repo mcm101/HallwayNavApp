@@ -1,4 +1,3 @@
-
 const int SPACING = 450;
 const int NUM_CHANNELS = 8;
 const float DAC_RES = 255.0;

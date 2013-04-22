@@ -1,4 +1,4 @@
-const int debug  = 1;
+const int debug  = 0;
 float forward;//, previous_forward;
 float right;//, previous_right;
 float backward;//, previous_backward;
@@ -17,8 +17,6 @@ boolean repeat;
 
 void setup()
 {
-  
-  Serial.begin(9600);
   compass_setup();
   sonar_setup();
   map_init();
@@ -32,26 +30,33 @@ void setup()
   previous_intersection[0] = B1111;
   previous_intersection[1] = B1111;
   repeat = true;
+  Serial.begin(9600);
 }
 
 void loop()
 {
-  get_sensor_data();//do this indiviually?
-  /*left = 0;
-  right - 0;
+  //get_sensor_data();//do this indiviually?
+  left = 0;
+  right = 0;
+<<<<<<< HEAD
+  int difference = 0;
+  if(!at_goal())
+  {
+    //main loop!
+    
+=======
   if(!at_goal())
   {
     //main loop!
     if(repeat)
     {
-      sonar_fire(false);
-      for(int i = 0; i < 100; i++)
+      for(int i = 0; i < 1000; i++)
       { 
-        int dist = sonar_read();
-        Serial.println(dist);
+        right = ir_read('R');
       }
       repeat = false;
     }
+>>>>>>> 9d61bf99a5b2fd2c9cf8d6211cccf88be936533c
       
     //determine heading
     //make left = right ie. right/left should be 1
@@ -62,13 +67,6 @@ void loop()
     }
     left = left/100;
     right = right/100;
-    
-    Serial.print("left distance ");
-    Serial.println(left);
-    Serial.print("right distance ");
-    Serial.println(right);
-    //take_a_step();
-    
     difference = right - left;
     int degree = map(abs(difference), 0, 60, 0, 900);
     if(difference > 0) //closer to left
@@ -94,9 +92,9 @@ void loop()
   {
     //at goal, signal done!
     //vibrate motors in a circle to signal done
-  }*/
+  }
   //add a delay
-  delay(1000);
+ // delay(2000);
 }
 
 void get_sensor_data()
