@@ -8,7 +8,7 @@ const int HMC6352ReadAddress = 0x41; // internal address of the data
 
 int headingValue;
 
-void compassSetup()
+void compass_setup()
 {
   // "The Wire library uses 7 bit addresses throughout. 
   //If you have a datasheet or sample code that uses 8 bit address, 
@@ -18,10 +18,12 @@ void compassSetup()
   byte opModeCommand[] = {0x47, 0x74, 0x62};
   
   //setup compass module
+  Wire.begin();
   Wire.beginTransmission(HMC6352SlaveAddress);
   Wire.write(outputModeCommand, 3);
   Wire.write(opModeCommand, 3);
   Wire.endTransmission();
+  
 }
 
 float compass()
@@ -53,4 +55,6 @@ float compass()
   
   return headingInt;
 }
+
+
 

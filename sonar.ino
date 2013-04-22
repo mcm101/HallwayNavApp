@@ -1,12 +1,22 @@
 const int SONAR_AN_PIN = 0;
-
+const int SONAR_RX_PIN = 10;
+void sonar_setup()
+{
+  delay(250);
+  digitalWrite(SONAR_RX_PIN, HIGH);
+}
 int sonar_read()
 {
-  int inches = map(analogRead(SONAR_AN_PIN), 0, 1023, 0, 254);
+  digitalWrite(SONAR_RX_PIN, HIGH);
+  
+  //delayMicroseconds(20);
+ // digitalWrite(SONAR_RX_PIN, LOW);
+  delay(50);
+  int inches = analogRead(SONAR_AN_PIN)/2;
   
   if (debug)
   {
-    Serial.print("Sonar Inches: ");
+    Serial.print("analog Sonar Inches: ");
     Serial.println(inches);
   }
   
