@@ -38,34 +38,42 @@ void loop()
 {
   //get_sensor_data();//do this indiviually?
   left = 0;
-  right - 0;
+  right = 0;
+  int difference = 0;
   if(!at_goal())
   {
     //main loop!
-    if(repeat)
-    {
-      for(int i = 0; i < 10000; i++)
-      { 
-        right = ir_read('R');
-      }
-      repeat = false;
-    }
+    
       
     //determine heading
-    //make left = right
-  /*  for(int i = 0; i < 100; i++)
+    //make left = right ie. right/left should be 1
+    for(int i = 0; i < 100; i++)
     {  
       left += ir_read('L');
       right += ir_read('R');
     }
     left = left/100;
     right = right/100;
-    Serial.print("left distance ");
-    Serial.println(left);
-    Serial.print("right distance ");
-    Serial.println(right);
-*/    //take_a_step();
-    
+    difference = right - left;
+    int degree = map(abs(difference), 0, 60, 0, 900);
+    if(difference > 0) //closer to left
+    {
+      
+      direct(degree);
+      Serial.print("difference>0 : ");
+      Serial.println(degree);
+    }
+    else if(difference < 0) //closer to right
+    {
+      direct(3600 - degree);
+      Serial.print("difference<0 : ");
+      Serial.println(3600 - degree);
+    }
+    else //middle
+    {
+      Serial.println("middle");
+      direct(0);
+    }
   }
   else
   {
@@ -73,7 +81,7 @@ void loop()
     //vibrate motors in a circle to signal done
   }
   //add a delay
-//  delay(3000);
+ // delay(2000);
 }
 
 void get_sensor_data()
