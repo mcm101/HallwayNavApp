@@ -20,7 +20,7 @@ typedef struct
   
 } intersection;
 
-static intersection intersects[19];
+intersection intersects[19];
 const int max_hallways = 4;  //possible hallways off of an inersection
 
 // creates an array of intersections and hallways
