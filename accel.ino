@@ -143,5 +143,6 @@ void accel_wait_step()
     }
   }
   
+  delay(500);
   //Serial.println("Y passed");
 }
