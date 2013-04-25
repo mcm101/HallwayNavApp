@@ -15,7 +15,7 @@ void compass_setup()
   //you'll want to drop the low bit (i.e. shift the value one bit to the right), 
   //yielding an address between 0 and 127."
   byte outputModeCommand[] = {0x47, 0x4e, 0x00};
-  byte opModeCommand[] = {0x47, 0x74, 0x62};
+  byte opModeCommand[] = {0x47, 0x74, 0x72};
   
   //setup compass module
   Wire.begin();

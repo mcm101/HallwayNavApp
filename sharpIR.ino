@@ -6,6 +6,8 @@ const int FRONT_PIN = 8;
 const int RIGHT_PIN = 9;
 const int REAR_PIN = 10;
 const int LEFT_PIN = 11;
+const float MIN_DISTANCE = 7;
+const float MAX_DISTANCE = 60;
 
 float ir_read(char sensor)
 {
@@ -48,7 +50,19 @@ float ir_read(char sensor)
 float voltageToDistance(float y) //return distance in inches
 {
   //return (4129.936 * pow(y, -0.935) - 3.937); 
-  return (6688.7 * pow(y, -1.058)); 
+  float distance = 6688.7 * pow(y, -1.058);
+  if(distance < MIN_DISTANCE)
+  {
+    return MIN_DISTANCE;
+  }
+  else if(distance > MAX_DISTANCE)
+  {
+    return MAX_DISTANCE;
+  }
+  else
+  {
+    return (distance); 
+  }
 }
 
 
