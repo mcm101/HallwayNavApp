@@ -1,4 +1,4 @@
-const int SONAR_AN_PIN = 0;
+const int SONAR_AN_PIN = 15;
 const int SONAR_RX_PIN = 10;
 
 static filter *sonar_filt;
