@@ -26,10 +26,8 @@ void direct(int deg)
   temp = DAC_RES / (float)SPACING * (float)second_strength;
   second_strength = round(temp);
   
-  if(deg < 0)
-  {
+  if (deg < 0)
     first_strength = second_strength = 0;
-  }
   
   for (int i = 0; i < NUM_CHANNELS; i++)
   {

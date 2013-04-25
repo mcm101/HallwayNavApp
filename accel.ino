@@ -13,21 +13,22 @@ void accel_init()
   digitalWrite(SLEEP_PIN, HIGH);
   digitalWrite(GSEL_PIN, LOW);
   digitalWrite(SELF_TEST_PIN, HIGH);
-  delay(5);
+  delay(50);
   digitalWrite(SELF_TEST_PIN, LOW);
+  delay(50);
 }
 
-int accel_getX()
+float accel_getX()
 {
-  return analogRead(X_AN_PIN);
+  return map(analogRead(X_AN_PIN), 0, 1023, -1500, 1500) / 1000.0;
 }
 
-int accel_getY()
+float accel_getY()
 {
-  return analogRead(Y_AN_PIN);
+  return map(analogRead(Y_AN_PIN), 0, 1023, -1500, 1500) / 1000.0;
 }
 
-int accel_getZ()
+float accel_getZ()
 {
-  return analogRead(Z_AN_PIN);
+  return map(analogRead(Z_AN_PIN), 0, 1023, -1500, 1500) / 1000.0;
 }
