@@ -8,14 +8,14 @@ const int HMC6352ReadAddress = 0x41; // internal address of the data
 
 int headingValue;
 
-void compass_setup()
+void compass_init()
 {
   // "The Wire library uses 7 bit addresses throughout. 
   //If you have a datasheet or sample code that uses 8 bit address, 
   //you'll want to drop the low bit (i.e. shift the value one bit to the right), 
   //yielding an address between 0 and 127."
   byte outputModeCommand[] = {0x47, 0x4e, 0x00};
-  byte opModeCommand[] = {0x47, 0x74, 0x72};
+  byte opModeCommand[] = {0x47, 0x74, 0x62};
   
   //setup compass module
   Wire.begin();
@@ -23,16 +23,29 @@ void compass_setup()
   Wire.write(outputModeCommand, 3);
   Wire.write(opModeCommand, 3);
   Wire.endTransmission();
+  /*
+  Serial.println("Start");
   
+  Wire.beginTransmission(HMC6352SlaveAddress);
+  Wire.write(0x43);
+  Wire.endTransmission();
+  delay(30000);
+  Wire.beginTransmission(HMC6352SlaveAddress);
+  Wire.write(0x45);
+  Wire.endTransmission();
+  */
 }
 
-float compass()
+float compass_read()
 {
   // Get Data
   Wire.requestFrom(HMC6352SlaveAddress, 2, true);
 
-  //"The heading output data will be the value in tenths of degrees
-  //from zero to 3599 and provided in binary format over the two bytes."
+  // Wait for the bytes to arrive
+  while (Wire.available() != 2);
+  
+  // The heading output data will be the value in tenths of degrees
+  // from zero to 3599 and provided in binary format over the two bytes.
   byte MSB = Wire.read();
   byte LSB = Wire.read();
   
@@ -47,6 +60,5 @@ float compass()
   
   return headingInt;
 }
-
 
 

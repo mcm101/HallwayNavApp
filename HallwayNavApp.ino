@@ -1,10 +1,12 @@
-const int debug  = 1;
+#include "fir.h"
+
+const int debug  = 0;
 float forward;//, previous_forward;
 float right;//, previous_right;
 float backward;//, previous_backward;
 float left;//, previous_left;
 int sonar;//, previous_sonar;
-int heading;//, previous_heading;
+float heading;//, previous_heading;
 float height;//height of user
 boolean obstacle_avoidance_left = false;//try and go left around object
 boolean obstacle_avoidance_right = false;//try and go right around object
@@ -15,17 +17,18 @@ byte previous_intersection[2];//[0] most recent, [1] before that
 
 boolean repeat;
 
+static int steps = 0;
+
 void setup()
 {
-  
   Serial.begin(9600);
-  compass_setup();
-  sonar_setup();
+  compass_init();
+  sonar_init();
   map_init();
   accel_init();
-  height = sonar_read();//calibrate height, average a few values
+  ir_init();
   
- // get_sensor_data(); //for initial localize
+  // get_sensor_data(); //for initial localize
   //call take_a_step(direction) to line up with major direction;
   //localize();
   
@@ -36,23 +39,27 @@ void setup()
 
 void loop()
 {
-  get_sensor_data();//do this indiviually?
-  /*left = 0;
-  right - 0;
+  //get_sensor_data();//do this indiviually?
+  
+  Serial.println(sonar_object());
+  
+  /*
+  heading = 0;
   if(!at_goal())
   {
     //main loop!
     if(repeat)
     {
-      sonar_fire(false);
-      for(int i = 0; i < 100; i++)
+      //for(int i = 0; i < 100; i++)
       { 
-        int dist = sonar_read();
-        Serial.println(dist);
+        heading = compass_read();
+        delay(50);
       }
-      repeat = false;
-    }
       
+      Serial.println(heading);
+    }
+    
+    /*
     //determine heading
     //make left = right ie. right/left should be 1
     for(int i = 0; i < 100; i++)
@@ -94,9 +101,10 @@ void loop()
   {
     //at goal, signal done!
     //vibrate motors in a circle to signal done
-  }*/
+  }
   //add a delay
   delay(1000);
+  */
 }
 
 void get_sensor_data()
@@ -108,7 +116,7 @@ void get_sensor_data()
   backward = ir_read('B');
   left = ir_read('L');
   sonar = sonar_read();
-  heading = compass();
+  heading = compass_read();
   //accel?  //part of take a step function instead?
 }
 

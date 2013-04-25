@@ -7,6 +7,35 @@ const int RIGHT_PIN = 9;
 const int REAR_PIN = 10;
 const int LEFT_PIN = 11;
 
+static filter *front_filt;
+static filter *right_filt;
+static filter *rear_filt;
+static filter *left_filt;
+
+void ir_init()
+{
+  float ir_coeffs[] = {-0.014598, -0.024835, -0.029673, -0.01612,
+                       0.022909, 0.084299, 0.15315, 0.20762,
+                       0.22835, 0.20762, 0.15315, 0.084299,
+                       0.022909, -0.01612, -0.029673, -0.024835, -0.014598};
+  
+  front_filt = fir_create(17, ir_coeffs);
+  right_filt = fir_create(17, ir_coeffs);
+  rear_filt = fir_create(17, ir_coeffs);
+  left_filt = fir_create(17, ir_coeffs);
+  
+  float f, l, b, r;
+  
+  // Seed the buffers with some data
+  for (int i = 0; i < 17; ++i)
+  {
+    fir_filter(front_filt, analogRead(FRONT_PIN));
+    fir_filter(right_filt, analogRead(RIGHT_PIN));
+    fir_filter(rear_filt, analogRead(REAR_PIN));
+    fir_filter(left_filt, analogRead(LEFT_PIN));
+  }
+}
+
 float ir_read(char sensor)
 {
   float voltage;
@@ -14,22 +43,22 @@ float ir_read(char sensor)
   if (sensor == 'F')
   {
     if (debug)  Serial.print("Front");
-    voltage = analogRead(FRONT_PIN);
+    voltage = fir_filter(front_filt, analogRead(FRONT_PIN));
   }
   else if (sensor == 'R')
   {
     if (debug)  Serial.print("Right");
-    voltage = analogRead(RIGHT_PIN);
+    voltage = fir_filter(right_filt, analogRead(RIGHT_PIN));
   }
   else if (sensor == 'B')
   {
     if (debug)  Serial.print("Back");
-    voltage = analogRead(REAR_PIN);
+    voltage = fir_filter(rear_filt, analogRead(REAR_PIN));
   }
   else if (sensor == 'L')
   {
     if (debug)  Serial.print("Left");
-    voltage = analogRead(LEFT_PIN);
+    voltage = fir_filter(left_filt, analogRead(LEFT_PIN));
   }
   else 
   {
