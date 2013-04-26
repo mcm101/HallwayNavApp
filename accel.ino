@@ -14,7 +14,7 @@ static filter *y_filt;
 static filter *z_filt;
 
 const float x_thresh = 0.5;
-const float y_thresh = 2.0;
+const float y_thresh = 1.5;
 const float z_thresh = 0.5;
 
 static float x_base = 0.0;
@@ -30,14 +30,11 @@ void accel_init()
   digitalWrite(SELF_TEST_PIN, LOW);
   delay(50);
   
-  float accel_coeffs[] = {0.0041124, 0.0075884, -0.0037759, -0.035818,
-                          -0.057839, -0.013064, 0.11964, 0.27667,
-                          0.34747, 0.27667, 0.11964, -0.013064,
-                          -0.057839, -0.035818, -0.0037759, 0.0075884, 0.0041124};
+  float accel_coeffs[] = {1};//{-0.039405,0.26463,0.60706,0.26463,-0.039405};
   
-  x_filt = fir_create(17, accel_coeffs);
-  y_filt = fir_create(17, accel_coeffs);
-  z_filt = fir_create(17, accel_coeffs);
+  x_filt = fir_create(1, accel_coeffs);
+  y_filt = fir_create(1, accel_coeffs);
+  z_filt = fir_create(1, accel_coeffs);
   
   float x, y, z;
   
@@ -80,6 +77,8 @@ void accel_wait_step()
 {  
   float x, y, z;
   
+  Serial.println("Waiting for step");
+  
   while (1)
   {
     x = accel_getX();
@@ -93,13 +92,13 @@ void accel_wait_step()
     //Serial.print(y);
     //Serial.print(",");
     //Serial.println(z);
-    if (abs(x - x_base) / x_base > x_thresh)
+    if ((x - x_base) / x_base > x_thresh)
     {
       break;
     }
   }
   
-  //Serial.println("X passed");
+  Serial.println("X passed");
  /*
   while (1)
   {
@@ -137,12 +136,13 @@ void accel_wait_step()
     Serial.print(y);
     Serial.print(",");
     Serial.println(z);*/
-    if (abs(y - y_base) / y_base > y_thresh)
+    if ((y - y_base) / y_base > y_thresh)
     {
       break;
     }
   }
   
-  delay(500);
-  //Serial.println("Y passed");
+  Serial.println("Y passed");
+  
+  delay(400);
 }

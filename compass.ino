@@ -6,8 +6,6 @@
 const int HMC6352SlaveAddress = 0x42 >> 1; // only 7 bits
 const int HMC6352ReadAddress = 0x41; // internal address of the data
 
-int headingValue;
-
 void compass_init()
 {
   // "The Wire library uses 7 bit addresses throughout. 
@@ -23,20 +21,22 @@ void compass_init()
   Wire.write(outputModeCommand, 3);
   Wire.write(opModeCommand, 3);
   Wire.endTransmission();
-  /*
-  Serial.println("Start");
-  
-  Wire.beginTransmission(HMC6352SlaveAddress);
-  Wire.write(0x43);
-  Wire.endTransmission();
-  delay(30000);
-  Wire.beginTransmission(HMC6352SlaveAddress);
-  Wire.write(0x45);
-  Wire.endTransmission();
-  */
 }
 
 float compass_read()
+{
+  float reading = 0;
+ 
+  for(int i = 0; i < 20; i++)
+  {
+    reading += compass_request();
+    delay(50);
+  }
+  
+  return reading / 20;
+}
+
+float compass_request()
 {
   // Get Data
   Wire.requestFrom(HMC6352SlaveAddress, 2, true);
@@ -50,7 +50,7 @@ float compass_read()
   byte LSB = Wire.read();
   
   float headingSum = (MSB << 8) + LSB; //(MSB / LSB sum)
-  float headingInt = headingSum / 10;
+  float headingInt = headingSum / 10.0;
   
   if (debug)
   {

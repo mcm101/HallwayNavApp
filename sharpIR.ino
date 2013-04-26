@@ -14,15 +14,12 @@ static filter *left_filt;
 
 void ir_init()
 {
-  float ir_coeffs[] = {-0.014598, -0.024835, -0.029673, -0.01612,
-                       0.022909, 0.084299, 0.15315, 0.20762,
-                       0.22835, 0.20762, 0.15315, 0.084299,
-                       0.022909, -0.01612, -0.029673, -0.024835, -0.014598};
+  float ir_coeffs[] = {1};//{-0.039405,0.26463,0.60706,0.26463,-0.039405};
   
-  front_filt = fir_create(17, ir_coeffs);
-  right_filt = fir_create(17, ir_coeffs);
-  rear_filt = fir_create(17, ir_coeffs);
-  left_filt = fir_create(17, ir_coeffs);
+  front_filt = fir_create(1, ir_coeffs);
+  right_filt = fir_create(1, ir_coeffs);
+  rear_filt = fir_create(1, ir_coeffs);
+  left_filt = fir_create(1, ir_coeffs);
   
   float f, l, b, r;
   

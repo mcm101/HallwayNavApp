@@ -75,13 +75,13 @@ void map_init()
   intersects[6].halls[2].orientation = -1;
   intersects[6].halls[3].orientation = -1;
   intersects[6].number_of_hallways = 2;
-  intersects[6].preferred_hall = 1;
+  intersects[6].preferred_hall = 0;
   
   intersects[7].walls = B0011;
   intersects[7].halls[2].length = 166;
   intersects[7].halls[2].orientation = 310;
   intersects[7].halls[3].length = 363;
-  intersects[7].halls[3].orientation = 232;
+  intersects[7].halls[3].orientation = 265;
   intersects[7].halls[1].orientation = -1;
   intersects[7].halls[0].orientation = -1;
   intersects[7].number_of_hallways = 2;
@@ -150,7 +150,7 @@ void map_init()
   
   intersects[14].walls = B1100;
   intersects[14].halls[0].length = 898;
-  intersects[14].halls[0].orientation = 180;
+  intersects[14].halls[0].orientation = 185;
   intersects[14].halls[1].length = 1120;
   intersects[14].halls[1].orientation = 65;
   intersects[14].halls[3].orientation = -1;

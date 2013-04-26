@@ -40,3 +40,9 @@ void direct(int deg)
   }
   
 }
+
+void finished()
+{
+  for (int i = 0; i < NUM_CHANNELS; i++)
+    dac_write(i, 255);
+}
